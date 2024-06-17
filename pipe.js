@@ -43,7 +43,7 @@ Jupyter.keyboard_manager.edit_shortcuts.add_shortcut('Shift-Enter', {
     help : 'preprocess cell',
     handler : 
     function (event) {
-        // add cell, focus it, hide output, interpret, replace
+        // get cell and it's code, overwrite with interpretation, execute, overwrite with original code
         let cell=Jupyter.notebook.get_selected_cell();
         let code=cell.get_text();
         if (code.includes("|>") !== true){return}
