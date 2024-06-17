@@ -28,25 +28,11 @@ pipe_operator = document.addEventListener("keydown", (event) => {
         cell.code_mirror.setCursor(cursor);
   }
 });
-
-// command shortcuts
-Jupyter.keyboard_manager.command_shortcuts.add_shortcut('Shift-Enter', {
-    help : 'preprocess cell',
-    handler : 
-    function (event) {
-        console.log("hello");
-    }
-});
-
-// editing shortcuts
-Jupyter.keyboard_manager.edit_shortcuts.add_shortcut('Shift-Enter', {
-    help : 'preprocess cell',
-    handler : 
-    function (event) {
-        // get cell and it's code, overwrite with interpretation, execute, overwrite with original code
-        let cell=Jupyter.notebook.get_selected_cell();
-        let code=cell.get_text();
-        if (code.includes("|>") !== true){return}
+function custom_run_cell(event) {
+    // add cell, focus it, hide output, interpret, replace
+    let cell=Jupyter.notebook.get_selected_cell();
+    let code=cell.get_text();
+    if (code.includes("|>") === true){
         console.log("interpreting code...");
         cell.set_text("interpret('"+code+"',pipe,'|>')");
         // update
@@ -56,4 +42,19 @@ Jupyter.keyboard_manager.edit_shortcuts.add_shortcut('Shift-Enter', {
         cell=Jupyter.notebook.get_selected_cell();
         cell.set_text(code);
     }
+    cell.execute();
+    Jupyter.notebook.insert_cell_below();
+    Jupyter.notebook.select_next();
+}
+
+// command shortcuts
+Jupyter.keyboard_manager.command_shortcuts.add_shortcut('Shift-Enter', {
+    help : 'preprocess cell',
+    handler : custom_run_cell
+});
+
+// editing shortcuts
+Jupyter.keyboard_manager.edit_shortcuts.add_shortcut('Shift-Enter', {
+    help : 'preprocess cell',
+    handler : custom_run_cell
 });
