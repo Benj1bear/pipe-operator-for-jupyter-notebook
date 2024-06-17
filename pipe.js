@@ -28,7 +28,7 @@ pipe_operator = document.addEventListener("keydown", (event) => {
         cell.code_mirror.setCursor(cursor);
   }
 });
-function custom_run_cell(event) {
+function custom_run_cell() {
     /* my function for preprocessing jupyter notebook cells */
     // add cell, focus it, hide output, interpret, replace
     let cell=Jupyter.notebook.get_selected_cell();
@@ -45,8 +45,11 @@ function custom_run_cell(event) {
     } else{
         cell.execute();
     }
-    Jupyter.notebook.insert_cell_below();
-    Jupyter.notebook.select_next();
+    // 
+    if (Jupyter.notebook.select_next().get_selected_cell() === cell){
+        Jupyter.notebook.insert_cell_below();
+        Jupyter.notebook.select_next();
+    }
 }
 
 // command shortcuts
