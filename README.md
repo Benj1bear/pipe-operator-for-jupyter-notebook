@@ -1,7 +1,7 @@
 # pipe-operator-for-jupyter-notebook
 my attempt at implementing an R like pipe operator in jupyter notebook for IPython
 # current progress
-It works, but I need to test it e.g. for quality assurance.
+am fixing the import_js to be more flexible otherwise it works, but I need to test it e.g. for quality assurance.
 # how to retrieve
 ```python
 !git clone https://github.com/Benj1bear/pipe-operator-for-jupyter-notebook
