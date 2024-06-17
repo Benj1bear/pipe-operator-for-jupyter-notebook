@@ -43,37 +43,17 @@ Jupyter.keyboard_manager.edit_shortcuts.add_shortcut('Shift-Enter', {
     help : 'preprocess cell',
     handler : 
     function (event) {
-        // make sure to add a * while waiting
+        // add cell, focus it, hide output, interpret, replace
         let cell=Jupyter.notebook.get_selected_cell();
         let code=cell.get_text();
-        // make sure it's worthwhile
         if (code.includes("|>") !== true){return}
-        let input = cell.input[0].childNodes[0];
-        let inputs = input.innerHTML.split("[&nbsp;]");
-        input.innerHTML = inputs[0]+"[*]"+inputs[1];
-        
-        
-        // add cell, focus it, hide output, interpret, replace
-        Jupyter.notebook.insert_cell_below();
-        Jupyter.notebook.select_next();
-        cell=Jupyter.notebook.get_selected_cell();
-//         cell.element[0].style.display="None";
         console.log("interpreting code...");
         cell.set_text("interpret('"+code+"',pipe,'|>')");
-        cell.execute();
-        console.log("getting outputs...");
-        // move the output from this cell to the previous
+        // update
         cell=Jupyter.notebook.get_selected_cell();
-        let output = cell.output_area.wrapper[0].outerHTML;
-        // move the input number from this cell to the previous
-        input = cell.input[0].childNodes[0].innerHTML;
-        Jupyter.notebook.delete_cell();
-        // if not the last cell
-        if (Jupyter.notebook.select_next().get_selected_cell() !== cell){
-            Jupyter.notebook.select_prev();
-        }
-        cell = Jupyter.notebook.get_selected_cell();
-        cell.input[0].childNodes[0].innerHTML = input;
-        cell.output_area.wrapper[0].outerHTML = output;
+        cell.execute();
+        // update
+        cell=Jupyter.notebook.get_selected_cell();
+        cell.set_text(code);
     }
 });
