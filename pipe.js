@@ -29,6 +29,7 @@ pipe_operator = document.addEventListener("keydown", (event) => {
   }
 });
 function custom_run_cell(event) {
+    /* my function for preprocessing jupyter notebook cells */
     // add cell, focus it, hide output, interpret, replace
     let cell=Jupyter.notebook.get_selected_cell();
     let code=cell.get_text();
@@ -41,8 +42,9 @@ function custom_run_cell(event) {
         // update
         cell=Jupyter.notebook.get_selected_cell();
         cell.set_text(code);
+    } else{
+        cell.execute();
     }
-    cell.execute();
     Jupyter.notebook.insert_cell_below();
     Jupyter.notebook.select_next();
 }
