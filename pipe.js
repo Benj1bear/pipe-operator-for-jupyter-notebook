@@ -36,20 +36,21 @@ function custom_run_cell() {
     if (code.includes("|>") === true){
         console.log("interpreting code...");
         // put the original 'code' in 
-        let line = "code='"+code+"'";// needs more work done for more complex string inputs
+        // how to ensure it's always a string...
+        let line = 'code=\"\"\"'+code+'\"\"\"';// needs more work done for more complex string inputs
         // interpret piping only (it will give a string)
         line+="\ninterpretation=interpret(code,pipe,'|>')"
-        line+="\nJavascript('let cell=Jupyter.notebook.get_selected_cell();cell.set_text(\"'+interpretation+'\");"
-        line+="cell=Jupyter.notebook.get_selected_cell();cell.execute();Jupyter.notebook.get_selected_cell().set_text(\"'+code+'\");')"
+        // format for multiple line javascript execution
+        line+='\ncode="\\\\n".join(code.split("\\n"))'
+        line+='\ninterpretation="\\\\n".join(interpretation.split("\\n"))'
+        cell_str="Jupyter.notebook.get_selected_cell()"
+        line+="\nJavascript('"+cell_str+".set_text(\"'+interpretation+'\");"
+        line+=cell_str+".execute();"+cell_str+".set_text(\"'+code+'\");')"
         cell.set_text(line);
         // update
         cell=Jupyter.notebook.get_selected_cell();
     }
-    cell.execute();
-    if (Jupyter.notebook.select_next().get_selected_cell() === cell){
-        Jupyter.notebook.insert_cell_below();
-        Jupyter.notebook.select_next();
-    }
+     cell.execute();
 }
 
 // command shortcuts
