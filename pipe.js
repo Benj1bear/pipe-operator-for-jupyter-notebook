@@ -53,7 +53,13 @@ function custom_run_cell() {
         // update
         cell=Jupyter.notebook.get_selected_cell();
     }
-     cell.execute();
+    cell.execute();
+    Jupyter.notebook.select_next();
+    // insert cell below or move on to next
+    if (Jupyter.notebook.get_selected_cell() === cell){
+        Jupyter.notebook.insert_cell_below();
+        Jupyter.notebook.select_next();
+    }
 }
 // command shortcuts
 Jupyter.keyboard_manager.command_shortcuts.add_shortcut('Shift-Enter', {
