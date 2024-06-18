@@ -30,22 +30,22 @@ pipe_operator = document.addEventListener("keydown", (event) => {
 });
 function custom_run_cell() {
     /* my function for preprocessing jupyter notebook cells */
-    // add cell, focus it, hide output, interpret, replace
+    // get cell, get input, overwrite with interpretation with javascript
     let cell=Jupyter.notebook.get_selected_cell();
     let code=cell.get_text();
     if (code.includes("|>") === true){
         console.log("interpreting code...");
-        cell.set_text("interpret(\"\"\""+code+"\"\"\",pipe,'|>')");
+        // put the original 'code' in 
+        let line = "code='"+code+"'";// needs more work done for more complex string inputs
+        // interpret piping only (it will give a string)
+        line+="\ninterpretation=interpret(code,pipe,'|>')"
+        line+="\nJavascript('let cell=Jupyter.notebook.get_selected_cell();cell.set_text(\"'+interpretation+'\");"
+        line+="cell=Jupyter.notebook.get_selected_cell();cell.execute();Jupyter.notebook.get_selected_cell().set_text(\"'+code+'\");')"
+        cell.set_text(line);
         // update
         cell=Jupyter.notebook.get_selected_cell();
-        cell.execute();
-        // update
-        cell=Jupyter.notebook.get_selected_cell();
-        cell.set_text(code);
-    } else{
-        cell.execute();
     }
-    // 
+    cell.execute();
     if (Jupyter.notebook.select_next().get_selected_cell() === cell){
         Jupyter.notebook.insert_cell_below();
         Jupyter.notebook.select_next();
