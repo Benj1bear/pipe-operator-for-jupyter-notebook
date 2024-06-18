@@ -35,7 +35,7 @@ function custom_run_cell() {
     let code=cell.get_text();
     if (code.includes("|>") === true){
         console.log("interpreting code...");
-        cell.set_text("interpret('"+code+"',pipe,'|>')");
+        cell.set_text("interpret(\"\"\""+code+"\"\"\",pipe,'|>')");
         // update
         cell=Jupyter.notebook.get_selected_cell();
         cell.execute();
