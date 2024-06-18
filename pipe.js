@@ -34,15 +34,18 @@ function custom_run_cell() {
     let cell=Jupyter.notebook.get_selected_cell();
     let code=cell.get_text();
     if (code.includes("|>") === true){
-        console.log("interpreting code...");
-        // put the original 'code' in 
-        // how to ensure it's always a string...
+        // to ensure it's always a string
+        code=code.split("'").join("\\\\\'")
+        code=code.split('"').join('\\\\\"')
         let line = 'code=\"\"\"'+code+'\"\"\"';// needs more work done for more complex string inputs
         // interpret piping only (it will give a string)
         line+="\ninterpretation=interpret(code,pipe,'|>')"
         // format for multiple line javascript execution
         line+='\ncode="\\\\n".join(code.split("\\n"))'
         line+='\ninterpretation="\\\\n".join(interpretation.split("\\n"))'
+        line+="\ninterpretation='\\\"'.join(interpretation.split(\"'\"))"
+        line+='\ninterpretation="\\\'".join(interpretation.split(\'"\'))'
+        // executing javascript
         cell_str="Jupyter.notebook.get_selected_cell()"
         line+="\nJavascript('"+cell_str+".set_text(\"'+interpretation+'\");"
         line+=cell_str+".execute();"+cell_str+".set_text(\"'+code+'\");')"
@@ -52,13 +55,11 @@ function custom_run_cell() {
     }
      cell.execute();
 }
-
 // command shortcuts
 Jupyter.keyboard_manager.command_shortcuts.add_shortcut('Shift-Enter', {
     help : 'preprocess cell',
     handler : custom_run_cell
 });
-
 // editing shortcuts
 Jupyter.keyboard_manager.edit_shortcuts.add_shortcut('Shift-Enter', {
     help : 'preprocess cell',
