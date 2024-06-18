@@ -34,7 +34,7 @@ function custom_run_cell() {
     let cell=Jupyter.notebook.get_selected_cell();
     let code=cell.get_text();
     if (code.includes("|>") === true){
-        // to ensure it's always a string
+        // to ensure it's always a string for the remainder of insertions
         code=code.split("'").join("\\\\\'")
         code=code.split('"').join('\\\\\"')
         let line = 'code=\"\"\"'+code+'\"\"\"';// needs more work done for more complex string inputs
