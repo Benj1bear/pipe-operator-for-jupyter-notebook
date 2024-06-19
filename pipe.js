@@ -47,19 +47,21 @@ function custom_run_cell() {
         line+='\ninterpretation="\\\'".join(interpretation.split(\'"\'))'
         // executing javascript
         cell_str="Jupyter.notebook.get_selected_cell()"
-        line+="\nJavascript('"+cell_str+".set_text(\"'+interpretation+'\");"
-        line+=cell_str+".execute();"+cell_str+".set_text(\"'+code+'\");')"
+        line+="\nJavascript('let cell = "+cell_str+";cell.set_text(\"'+interpretation+'\");"
+        line+="cell.execute();cell.set_text(\"'+code+'\");Jupyter.notebook.select_next();"
+        line+="if ("+cell_str+".cell_id === cell.cell_id){Jupyter.notebook.insert_cell_below();Jupyter.notebook.select_next();}')"
         cell.set_text(line);
         // update
         cell=Jupyter.notebook.get_selected_cell();
+        cell.execute();
+    } else {
+        cell.execute();
+        Jupyter.notebook.select_next();
+        if (Jupyter.notebook.get_selected_cell().cell_id === cell.cell_id){
+            Jupyter.notebook.insert_cell_below();
+            Jupyter.notebook.select_next();
+        }
     }
-    cell.execute();
-    // Jupyter.notebook.select_next();
-    // // insert cell below or move on to next
-    // if (Jupyter.notebook.get_selected_cell() === cell){
-    //     Jupyter.notebook.insert_cell_below();
-    //     Jupyter.notebook.select_next();
-    // }
 }
 // command shortcuts
 Jupyter.keyboard_manager.command_shortcuts.add_shortcut('Shift-Enter', {
