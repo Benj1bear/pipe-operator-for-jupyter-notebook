@@ -1,3 +1,5 @@
+/* key-binder and preprocessor for enabling custom code workflows (though specifically piping at the moment) */
+
 pipe_operator = document.addEventListener("keydown", (event) => {
     if (event.ctrlKey && event.shiftKey && event.key === "L") {        
         // get cell,get cursor, set text, set cursor
