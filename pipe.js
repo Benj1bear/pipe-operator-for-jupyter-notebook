@@ -39,7 +39,7 @@ function custom_run_cell() {
         // to ensure it's always a string for the remainder of insertions
         code=code.split("'").join("\\\\\'")
         code=code.split('"').join('\\\\\"')
-        let line = 'code=\"\"\"'+code+'\"\"\"';// needs more work done for more complex string inputs
+        let line = 'code=\"\"\"'+code+'\"\"\"';
         // interpret piping only (it will give a string)
         line+="\ninterpretation=interpret(code,pipe,'|>')"
         // format for multiple line javascript execution
