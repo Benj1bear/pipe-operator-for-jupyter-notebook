@@ -15,4 +15,4 @@ with the my my_pack library installed and the pipe.js file you should be able to
 # Notes
 To unload the javascript whilst (I think) retaining the variables onced jupyter notebook is saved you can refresh the page.
 
-For the pipe operator to work you need the my_pack module installed that's from my other repo 'my_pack' which has the interpret, pipe, and import_js functions that enable it to work.
+For the pipe operator to work you need the my_pack module installed that's from my other repo 'my_pack' which has the interpret, pipe, and import_js functions.
