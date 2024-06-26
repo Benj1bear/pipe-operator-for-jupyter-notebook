@@ -16,3 +16,5 @@ with the my my_pack library installed and the pipe.js file you should be able to
 To unload the javascript whilst (I think) retaining the variables onced jupyter notebook is saved you can refresh the page.
 
 For the pipe operator to work you need the my_pack module in the same directory or installed for use beyond that's from my other repo 'my_pack' which has the interpret, pipe, and import_js functions.
+
+Currently it's only really useful for simple piping and doesn't really cater for as many use cases as I'd like. I might further develop it at another time.
