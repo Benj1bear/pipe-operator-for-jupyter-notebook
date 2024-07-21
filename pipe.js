@@ -1,4 +1,7 @@
 /* key-binder and preprocessor for enabling custom code workflows (though specifically piping at the moment) */
+// load necessary libraries (This line doesn't actually matter it's just for convenience and you can import them yourself if you desire)
+IPython.notebook.kernel.execute("from IPython.display import Javascript;from my_pack import interpret,pipe")
+
 
 pipe_operator = document.addEventListener("keydown", (event) => {
     if (event.ctrlKey && event.shiftKey && event.key === "L") {        
